@@ -122,7 +122,7 @@
                                         value="{{ $request->search }}">
                                     <button type="submit" class="btn btn-sm btn-space btn-primary group-btn  d-lg-block"
                                         style="margin-bottom: 0px;margin-left:0px!important"><i class="fa fa-filter"></i> {{
-                                        __('levels.search') }}</button>
+        __('levels.search') }}</button>
                                 </div>
                             </form>
                         </div>
@@ -135,7 +135,7 @@
                                         value="{{ $request->search }}">
                                     <button type="submit" class="btn btn-sm btn-space btn-primary group-btn"
                                         style="margin-bottom: 0px;margin-left:0px!important"><i class="fa fa-filter"></i> {{
-                                        __('levels.search') }}</button>
+        __('levels.search') }}</button>
                                 </div>
                             </form>
                         </div>
@@ -168,7 +168,8 @@
                                         <option value="received_by_hub_multiple_parcel">{{ __('levels.received_by_hub') }}
                                         </option>
                                         <option value="delivery_man_assign_multiple_parcel">
-                                            {{ __('levels.delivery_man_assign') }}</option>
+                                            {{ __('levels.delivery_man_assign') }}
+                                        </option>
                                         <option value="assign_return_merchant">{{ __('levels.assign_return_merchant') }}
                                         </option>
                                     </select>
@@ -193,6 +194,7 @@
                                         <th>{{ __('###') }}</th>
                                         <th>{{ __('parcel.tracking_id') }}</th>
                                         <th>{{ __('parcel.recipient_info') }}</th>
+                                        <th>{{ __('parcel.note') }}</th>
                                         <th>{{ __('parcel.merchant') }}</th>
                                         <th>{{ __('parcel.amount')}}</th>
                                         <th>{{ __('parcel.priority') }}</th>
@@ -201,6 +203,7 @@
                                             <th>{{ __('parcel.status_update') }}</th>
                                         @endif
                                         <th>{{ __('parcel.payment')}}</th>
+                                        <th>Last Post Place </th>
                                         <th>{{ __('View Proof of Delivery')}}</th>
                                     </tr>
                                 </thead>
@@ -266,9 +269,18 @@
                                                     </div>
                                                     <div class="d-flex">
                                                         <i class="fas fa-map-marker-alt"></i>&nbsp;<p>
-                                                            {{$parcel->customer_address}}</p>
+                                                            {{$parcel->customer_address}}
+                                                        </p>
                                                     </div>
                                                 </div>
+                                            </td>
+                                            <td>
+                                                <button class="btn btn-primary"
+                                                    onclick="parcelNoteFunction('{{ $parcel->note }}')" data-title="Parcel Note"
+                                                    data-bs-toggle="modal" data-modalsize="modal-lg"
+                                                    data-bs-target="#dynamic-modal-note">
+                                                    <p class="mb-0 ">see note</p>
+                                                </button>
                                             </td>
                                             <td class="merchantpayment">
                                                 <p>{{$parcel->merchant->business_name}}</p>
@@ -348,6 +360,9 @@
 
                                             @endif
                                             <td>
+                                                {{ $parcel->hub->name}}
+                                            </td>
+                                            <td>
                                                 @if($parcel->status == \App\Enums\ParcelStatus::DELIVERED)
                                                     <a href="{{route('parcel.deliveredInfo', $parcel->id)}}"
                                                         class="btn btn-sm btn-warning ml-1 " data-toggle="tooltip"
@@ -399,6 +414,21 @@
         </div>
     </div>
     <!-- end wrapper  -->
+    {{-- note modal --}}
+    <div class="modal fade" id="dynamic-modal-note" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg"> <!-- default size -->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title"> Parcel Note</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    {{-- AJAX content will load here --}}
+                    <p id="parcelNote"></p>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection()
 
 <!-- css  -->
@@ -416,14 +446,21 @@
     <script src="{{ static_asset('js/onscan.js/onscan.min.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-    <script type="text/javascript"
-        src="{{ static_asset('backend/js/date-range-picker/date-range-picker-custom.js') }}"></script>
+    <script type="text/javascript" src="{{ static_asset('backend/js/date-range-picker/date-range-picker-custom.js') }}">
+
+    </script>
+
     <script>
         var merchantUrl = '{{ route('parcel.merchant.get') }}';
         var merchantID = '{{ $request->parcel_merchant_id }}';
         var deliveryManID = '{{ $request->parcel_deliveryman_id }}';
         var pickupManID = '{{ $request->parcel_pickupman_id }}';
         var dateParcel = '{{ $request->parcel_date }}';
+    </script>
+    <script>
+        function parcelNoteFunction(data) {
+            $('#parcelNote').text(data);
+        }
     </script>
     <script src="{{ static_asset('backend/js/parcel/custom.js') }}"></script>
     <script src="{{ static_asset('backend/js/parcel/filter.js') }}"></script>
