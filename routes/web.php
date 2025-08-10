@@ -953,6 +953,7 @@ Route::middleware(['XSS', 'IsInstalled'])->group(function () {
                 Route::post('parcel/merchant/shops',    [MerchantParcelController::class, 'merchantShops'])->name('merchant-panel.parcel.merchant.shops');
                 Route::post('parcel/delivery-category', [MerchantParcelController::class, 'deliveryWeight'])->name('merchant-panel.parcel.deliveryCategory.deliveryWeight');
                 Route::post('parcel/delivery-charge',   [MerchantParcelController::class, 'deliveryCharge'])->name('merchant-panel.parcel.deliveryCharge.get');
+               
                 //import
                 Route::get('parcel/import-parcel',  [MerchantParcelController::class, 'parcelImportExport'])->name('merchant-panel.parcel.parcel-import');
                 Route::post('parcel/file-import',   [MerchantParcelController::class, 'parcelImport'])->name('merchant-panel.parcel.file-import');

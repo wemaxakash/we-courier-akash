@@ -49,8 +49,12 @@ class MerchantParcelController extends Controller
         $userID = Auth::user()->id;
         $merchant = $this->repo->getMerchant($userID);
         $parcels = $this->repo->all($merchant->id);
+        // foreach ($parcels as $parcel) {
+        //     dump($parcel->hub);
+        // }
         return view('backend.merchant_panel.parcel.index',compact('parcels','request' ));
     }
+
     public function parcelBank(Request $request)
     {
         $userID = Auth::user()->id;

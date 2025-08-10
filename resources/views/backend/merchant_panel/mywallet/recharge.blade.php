@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-lg-6"> 
+    <div class="col-lg-6">
         <form action="{{ route('merchant-panel.my.wallet.recharge.add') }}" method="post" id="recharge-form">
             @csrf
             <div class="cbm-input-group mb-2">
