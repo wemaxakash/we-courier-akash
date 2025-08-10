@@ -328,6 +328,7 @@ class MerchantParcelController extends Controller
     }
 
     public function parcelExport(Request $request){
+        dd($request->all());
         try {
             if($request->type && $request->type == 'csv'):
                 return Excel::download(new MerchantParcelExport($this->repo->parcelExport($request)),'Parcels Export-csv-file-'.Carbon::now()->format('d-m-Y His').'.csv',\Maatwebsite\Excel\Excel::CSV, [
