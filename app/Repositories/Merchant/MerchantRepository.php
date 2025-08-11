@@ -23,6 +23,8 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
 
 class MerchantRepository implements MerchantInterface{
+
+    public function __construct( private Parcel $parcel) {}
     public function all(){
         return Merchant::with('user','user.upload')->orderByDesc('id')->where(function($query){
             if(request()->date) { 
@@ -586,6 +588,20 @@ class MerchantRepository implements MerchantInterface{
             }
         }
 
+     
+        public function parcelSearchs($request)
+        {
+         
+            $search = $request->search;
+
+            return $this->parcel->where(function ($query) use ($search) {
+                $columns = $this->parcel->getSearchableFields();
+                foreach ($columns as $column) {
+                    $query->orWhere($column, 'LIKE', "%{$search}%");
+                }
+
+            })->paginate(10);
+        }
 
 
 }

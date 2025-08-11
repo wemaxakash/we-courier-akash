@@ -101,7 +101,7 @@
 
                 <div class="card">
                     <div class="row pl-4 pr-4 pt-4 merchantParcelPage">
-                        <div class="col-8">
+                        <div class="col-4">
                             <div class="d-flex   parcelsearchFlex parcel-import-export-btn">
                                 <p class="h3 mr-5">{{ __('parcel.title') }} </p>
                                 <div class="d-flex justify-content-start mt-md-0 d-lg-block   ">
@@ -115,7 +115,21 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-4 ">
+                        <div class="col-5 col-xl-5">
+                            <form action="{{ route('merchent.specific.search') }}" method=" get">
+
+                                @csrf
+                                <div class="d-flex parcelsearchFlex">
+                                    <input id="Psearch" class="form-control parcelSearch group-input d-lg-block "
+                                        name="search" type="text" placeholder="{{ __('levels.search') }}..."
+                                        value="{{ $request->search }}">
+                                    <button type="submit" class="btn btn-sm btn-space btn-primary group-btn  d-lg-block"
+                                        style="margin-bottom: 0px;margin-left:0px!important"><i class="fa fa-filter"></i>
+                                        {{ __('levels.search') }}</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-3 ">
                             <div class="d-flex justify-content-end  mt-0 parcel-create-import-btn-start">
                                 {{-- multiple parcel label print --}}
                                 <form action="{{ route('parcel.multiple.print-label') }}" method="get" target="_blank"

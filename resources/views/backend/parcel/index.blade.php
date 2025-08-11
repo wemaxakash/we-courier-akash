@@ -127,7 +127,7 @@
                             </form>
                         </div>
                         <div class="col-12 d-lg-none">
-                            <form action="{{route('parcel.specific.search') }}" method="get">
+                            <form action="{{route('merchant.specific.search') }}   " method="get">
                                 @csrf
                                 <div class="d-flex parcelsearchFlex ml-0">
                                     <input id="Psearch" class="parcelml-0 form-control  group-input w-100 " name="search"

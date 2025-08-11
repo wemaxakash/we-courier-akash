@@ -311,6 +311,19 @@ class MerchantParcelController extends Controller
         }
         return 0;
     }
+    public function ParcelSearchs(Request $request)
+    {
+
+        if($this->repo->parcelSearchs($request)){
+            $parcels          = $this->repo->parcelSearchs($request);
+            $deliverymans = $this->deliveryman->all();
+            $hubs         = $this->hub->all();
+            // $request['search']='on';
+            return view('backend.parcel.index',compact('parcels','request','deliverymans','hubs'));
+        }else{
+            return redirect()->back();
+        }
+    }
 
     public function deliveryWeight(Request $request)
     {
@@ -339,6 +352,22 @@ class MerchantParcelController extends Controller
             endif;
         } catch (\Throwable $th) {
             Toastr::error(__('parcel.delete_error_message'),__('message.error'));
+            return redirect()->back();
+        }
+    }
+
+
+    public function merchantSearchs(Request $request)
+    {
+        // dd($request->all());
+
+        if($this->repo->parcelSearchs($request)){
+            $parcels          = $this->repo->parcelSearchs($request);
+            $deliverymans = $this->deliveryman->all();
+            $hubs         = $this->hub->all();
+            // $request['search']='on';
+            return view('backend.merchant_panel.parcel.index',compact('parcels','request','deliverymans','hubs'));
+        }else{
             return redirect()->back();
         }
     }
