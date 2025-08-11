@@ -15,5 +15,7 @@ interface MerchantInterface {
     public function delete($id);
     public function merchant_shops_get($id);
     public function socialSignupStore($request,$social);
+    public function parcelSearchs($request);
+
 
 }

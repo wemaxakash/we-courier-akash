@@ -586,6 +586,30 @@ class MerchantRepository implements MerchantInterface{
             }
         }
 
+     
+        public function parcelSearchs($request)
+        {
+         
+            $search = $request->search;
+
+            return Parcel::where(function ($query) use ($search) {
+                $columns = [
+                    'customer_name',
+                    'customer_phone',
+                    'customer_address',
+                    'invoice_no',
+                    'tracking_id'
+                ];
+
+                foreach ($columns as $column) {
+                    $query->orWhere($column, 'LIKE', "%{$search}%");
+                }
+
+                $query->orWhereHas('merchant', function ($q) use ($search) {
+                    $q->where('business_name', 'LIKE', "%{$search}%");
+                });
+            })->paginate(10);
+        }
 
 
 }
