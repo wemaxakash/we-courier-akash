@@ -288,6 +288,20 @@ class Parcel extends Model
     public function invoice(){
         return $this->belongsTo(Invoice::class,'invoice_id','id');
     }
+
+    //parchel serach
+    protected array $searchable = [
+        'customer_name',
+        'customer_phone',
+        'customer_address',
+        'invoice_no',
+        'tracking_id',
+    ];
+
+    public function getSearchableFields(): array 
+    {
+        return $this->searchable;
+    }
     
 
 }
